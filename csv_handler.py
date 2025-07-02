@@ -38,13 +38,14 @@ def delete_record(record_id: int):
     write_all_records(new_records)
 
 # Funzione per aggiornare un record esistente
-def update_record(record_id: int, updated_record: dict):
-    records = read_all_records()
-    for i, record in enumerate(records):
-        if int(record["id"]) == record_id:
-            records[i] = updated_record
+def update_record(item_id: int, updated_item: dict):
+    items = read_all_records()
+    for i, item in enumerate(items):
+        if int(item["id"]) == item_id:
+            items[i] = updated_item
             break
-    write_all_records(records)
+    write_all_records(items)
+
 
 # Funzione per contare il numero di record
 def count_records():
