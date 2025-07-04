@@ -26,16 +26,16 @@ def get_count():
 def create_item(record: Record):
     exst_record = read_record(record.id)
     if exst_record:
-        raise HTTPException(status_code=400, detail="Record già esistente")
+        raise HTTPException(status_code=400, detail="Record already existent")
     write_record(record.model_dump())
-    return {"message": "Record creato correttamente", "record": record}
+    return {"record": record}
 
 # Endpoint per ottenere tutti i record
 @app.get("/items/")
 def get_all_records():
     records = read_all_records()
     if not records:
-        raise HTTPException(status_code=404, detail="Nessun record trovato")
+        raise HTTPException(status_code=404, detail="No records found")
     return records
 
 # Endpoint per ottenere un singolo record basato sull'ID
@@ -43,7 +43,7 @@ def get_all_records():
 def get_record(item_id: int):
     record = read_record(item_id)
     if not record:
-        raise HTTPException(status_code=404, detail="Record non trovato")
+        raise HTTPException(status_code=404, detail="No record found")
     return record
 
 # Endpoint per aggiornare un record esistente
@@ -52,7 +52,7 @@ def update_record_route(item_id: int, updated_record: Record):
     try:
         existing_record = read_record(item_id)
         if not existing_record:
-            raise HTTPException(status_code=404, detail="Record non trovato")
+            raise HTTPException(status_code=404, detail="No record found")
         updated_record.id = item_id 
         update_record(item_id, updated_record.model_dump())
         return updated_record
@@ -70,7 +70,7 @@ def delete_item_route(item_id: int):
         print("Richiesta di eliminazione ricevuta per ID:", item_id)
         item = read_record(item_id)
         if not item:
-            raise HTTPException(status_code=404, detail="Item non trovato")
+            raise HTTPException(status_code=404, detail="Record not found")
         delete_record(item_id)
         return {"message": "Item deleted successfully"}
     
